@@ -1,0 +1,5 @@
+# Development packages to install
+starship: true
+conda_p: true
+rlang_p: true
+rust_p: true

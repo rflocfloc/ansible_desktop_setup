@@ -38,7 +38,7 @@
           - fd-find
           - bat
           - ripgrep
-          - autojump
+          - zoxide
           - git
     - name: system setup | utilities | packages | vim
       package:

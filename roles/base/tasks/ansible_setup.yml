@@ -1,0 +1,25 @@
+- name: ansible setup | ensure ansible is the latest version
+  tags: ansible,ansible-setup
+  package:
+    name: ansible
+    state: latest
+
+- name: ansible setup | install required packages
+  tags: ansible,ansible-setup,packages
+  package:
+    name:
+      - "{{ dconf_package }}"
+      - "{{ python_psutil_package }}"
+
+- name: ansible setup | install acl package | Debian-based
+  tags: ansible,ansible-setup,packages
+  package:
+    name: acl
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: ansislbe setup | install dnf puglins | Fedora
+  tags: ansible,ansible-setup,packages
+  dnf:
+    name:
+      - dnf-plugins-core
+  when: ansible_distribution == "Fedora"

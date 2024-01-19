@@ -1,0 +1,16 @@
+amd_microcode_package: linux-firmware
+cron_package: cronie
+dconf_package: dconf
+intel_microcode_package: microcode_ctl
+nfs_client_package: nfs-common
+openssh_package: openssh-server
+openssh_service: sshd
+openssh_sshfs: fuse-sshfs
+python_flake8_package: python3-flake8
+python_package: python3
+python_pip_package: python3-pip
+python_psutil_package: python3-psutil
+python_pyflakes_package: python3-pyflakes
+python_virtualenv_package: python3-virtualenv
+sudo_group: sudo
+vim_package: vim

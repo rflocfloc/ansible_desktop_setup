@@ -1,0 +1,50 @@
+---
+# vars file for utilities
+
+_sshfs_packages:
+  default: 
+    - sshfs
+  RedHat:
+    - epel-release
+    - fuse-sshfs
+  CentOS:
+    - epel-release
+    - fuse-sshfs
+  Fedora:
+    - fuse-sshfs
+
+sshfs_package: "{{ _sshfs_packages[ansible_distribution] | default(_sshfs_packages['default']) }}"
+
+_vim_packages:
+  default:
+    - vim
+  Debian:
+    - vim
+    - vim-nox
+  RedHat:
+    - vim
+    - vim-enhanced
+
+vim_package: "{{ _vim_packages[ansible_os_family] | default(_vim_packages['default']) }}"
+
+
+_dconf_packages:
+  default:
+    - dconf-editor
+  Debian:
+    - dconf-cli
+  RedHat:
+    - dconf
+
+dconf_package: "{{ _dconf_packages[ansible_os_family] | default(_dconf_packages['default']) }}"
+
+
+_cron_packages:
+  default:
+    - cron
+  RedHat:
+    - cronie
+    - anacron
+
+cron_package: "{{ _cron_packages[ansible_os_family] | default(_cron_packages['default']) }}"
+

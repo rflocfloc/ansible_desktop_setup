@@ -1,0 +1,6 @@
+---
+# handlers file for rpm_fusion
+
+- name: Package update cache
+  package:
+    update_cache: yes

@@ -1,0 +1,61 @@
+---
+# tasks file for utilities
+
+- name: system setup | DNF package | enable max parallel download
+  tags: setup,system,dnf
+  lineinfile:
+    path: /etc/dnf/dnf.conf
+    search_string: "max_parallel_download"
+    line: "max_parallel_download=20"
+  when: ansible_distribution == "Fedora"
+
+- name: system setup | repositories | install package management tools
+  tags: packages,system,settings
+  package:
+    name: 
+      - aptitude
+      - software-properties-common
+    state: latest
+  when: ansible_os_family in ["Debian", "Ubunut", "Pop_OS!"]
+
+
+- name: system setup | utilities | packages | install
+  tags: setup, system, pakcages
+  block:
+    - name: system setup | utilities | packages | (tmux, git, fzf, fd, ...)  
+      package:
+        state: latest
+        name:
+          - curl
+          - htop
+          - neofetch
+          - rsync
+          - screen
+          - tmux
+          - wget
+          - whois
+          - fzf
+          - fd-find
+          - bat
+          - ripgrep
+          - autojump
+          - git
+    - name: system setup | utilities | packages | vim
+      package:
+        state: latest
+        name: "{{ vim_package }}"
+    - name: system setup | utilities | packages | sshfs
+      package:
+        state: latest
+        name:  "{{ sshfs_package }}"
+    - name: system setup | utilities | packages | dconf
+      package:
+        state: latest
+        name:  "{{ dconf_package }}"
+    - name: system setup | utilities | packages | cron
+      package:
+        state: latest
+        name:  "{{ cron_package }}"
+
+
+ 

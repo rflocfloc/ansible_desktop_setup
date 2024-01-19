@@ -1,0 +1,23 @@
+- name: system setup | utilities | install utility packages
+  tags: packages,system,settings
+  package:
+    state: latest
+    name:
+      - curl
+      - htop
+      - neofetch
+      - rsync
+      - screen
+      - "{{ openssh_sshfs }}"
+      - tmux
+      - "{{ vim_package }}"
+      - wget
+      - whois
+      - fzf
+      - fd-find
+      - bat
+      - ripgrep
+      - autojump
+      - git
+
+

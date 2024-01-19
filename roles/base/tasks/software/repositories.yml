@@ -1,0 +1,52 @@
+- name: system setup | repositories | install package management tools | Debian-based
+  tags: packages,system,settings
+  package:
+    name:
+      - aptitude
+      - software-properties-common
+    state: latest
+  when: ansible_distribution in ["Debian",  "Ubuntu"]
+
+- name: system setup | repositories | DNF parallel download | Fedora
+  lineinfile:
+    path: /etc/dnf/dnf.conf
+    search_string: "max_parallel_download"
+    line: "max_parallel_download=20"
+  when: ansible_distribution == "Fedora"
+
+
+- name: system setup | repositories | add RPM Fusion Free/NonFree | Fedora
+  when:
+    - ansible_distribution == "Fedora"
+  block:
+    - name: system setup | repositories | install Free GPG key | Fedora
+      ansible.builtin.rpm_key:
+        key: "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-2020"
+        state: present
+
+    - name: system setup | repositories |  add Free repos | Fedora
+      dnf:
+        name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+        state: present
+        validate_certs: no
+
+    - name: system setup | repositories | install NonFree GPG key | Fedora
+      ansible.builtin.rpm_key:
+        key: "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020"
+        state: present
+
+    - name: system setup | repositories | add NonFree repos | Fedora
+      dnf:
+        name: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+        state: present
+        validate_certs: no
+
+
+- name: system setup | repositories | enable R-CoprManager copr | Fedora
+  community.general.copr:
+    host: copr.fedorainfracloud.org
+    state: enabled
+    name: iucar/cran
+  when: ansible_distribution == "Fedora"
+
+

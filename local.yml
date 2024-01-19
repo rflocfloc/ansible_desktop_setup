@@ -1,0 +1,31 @@
+# global playbook
+
+- hosts: localhost
+  connection: local
+  become: true
+  tags: always
+  pre_tasks:
+    - name: pre-run | update package cache
+      tags: always
+      package: update_cache=yes
+      changed_when: false
+
+
+- hosts: localhost
+  connection: local
+  tags: base
+  become: true
+  roles:
+    - rpm_fusion
+    - utilities
+      #- buluma.openssh
+
+- hosts: localhost
+  connection: local
+  tags: development
+  become: true
+  roles:
+    - miniconda
+      #- R
+      #- python
+      #- rust

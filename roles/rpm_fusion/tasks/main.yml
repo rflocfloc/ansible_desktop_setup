@@ -1,0 +1,34 @@
+---
+# tasks file for rpm_fusion
+
+
+- name: system setup | repositories | RPM Fusion
+  tags: setup,repositories,rpm
+  when:
+    - ansible_os_family == "RedHat"
+  block:
+    - name: system setup | repositories | add RPM Fusion Free key
+      ansible.builtin.rpm_key:
+        key: "{{ rpmfusion_free_gpgp_key }}"
+        state: present
+
+    - name: system setup | repositories | add RPM Fusion Free repo
+      package:
+        name: "{{ rpmfusion_free_repository }}"
+        state: present
+        validate_certs: no
+      notify:
+        - Package update cache
+
+    - name: system setup | repositories | add RPM Fusion NonFree key
+      ansible.builtin.rpm_key:
+        key: "{{ rpmfusion_nonfree_gpgp_key }}"
+        state: present
+
+    - name: system setup | repositories | add RPM Fusion NonFree repo
+      package:
+        name: "{{ rpmfusion_nonfree_repository }}"
+        state: present
+        validate_certs: no
+      notify:
+        - Package update cache

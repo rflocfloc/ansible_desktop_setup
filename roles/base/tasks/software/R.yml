@@ -1,0 +1,62 @@
+- name: system setup | development packages | R | install devel support packages | Ubuntu
+  tags: dev,development,packages,R
+  apt:
+    name:
+      - dirmngr
+      - gnupg
+      - gcc
+      - apt-transport-https
+      - ca-certificates
+      - build-essential
+      - libcurl4-openssl-dev
+      - curl
+      - cmake
+      - libssl-dev
+      - libxml2-dev
+      - libfontconfig1-dev
+      - libfribidi-dev
+      - libharfbuzz-dev 
+      - libfreetype6-dev 
+      - libpng-dev 
+      - libtiff5-dev 
+      - libjpeg-dev
+    state: present
+  when: 
+    - ansible_distribution == "Ubuntu"
+    - R is defined and R == true
+
+- name: system setup | development packages | R | install packages | Ubuntu 
+  tags: dev,development,packages,R
+  apt:
+    name:
+      - r-base
+      - r-base-dev
+    state: present
+    install_recommends: false
+  when: 
+    - ansible_distribution == "Ubuntu"
+    - R is defined and R == true
+
+
+
+- name: system setup | development packages | R | install packages & support | Fedora
+  tags: dev,development,packages,R
+  dnf:
+    name:
+      - R
+      - 'dnf-command(copr)'
+      - R-CoprManager
+      - R-flexiblas
+      - flexiblas-*
+      - libcurl-devel
+      - openssl-devel
+      - curl-devel
+      - libXt-devel
+      - cmake
+      - gcc
+    state: present
+  when: 
+    - ansible_distribution == "Fedora"
+    - R is defined and R == true
+
+
